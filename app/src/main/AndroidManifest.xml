@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.ClaudeTimer">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"/>
+
+        <!-- Alias de icono: reposo (por defecto) -->
+        <activity-alias
+            android:name=".IconIdle"
+            android:targetActivity=".MainActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias android:name=".Icon5" android:targetActivity=".MainActivity"
+            android:enabled="false" android:exported="true"
+            android:icon="@mipmap/ic_launcher_5h" android:roundIcon="@mipmap/ic_launcher_5h_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias android:name=".Icon4" android:targetActivity=".MainActivity"
+            android:enabled="false" android:exported="true"
+            android:icon="@mipmap/ic_launcher_4h" android:roundIcon="@mipmap/ic_launcher_4h_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias android:name=".Icon3" android:targetActivity=".MainActivity"
+            android:enabled="false" android:exported="true"
+            android:icon="@mipmap/ic_launcher_3h" android:roundIcon="@mipmap/ic_launcher_3h_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias android:name=".Icon2" android:targetActivity=".MainActivity"
+            android:enabled="false" android:exported="true"
+            android:icon="@mipmap/ic_launcher_2h" android:roundIcon="@mipmap/ic_launcher_2h_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias android:name=".Icon1" android:targetActivity=".MainActivity"
+            android:enabled="false" android:exported="true"
+            android:icon="@mipmap/ic_launcher_1h" android:roundIcon="@mipmap/ic_launcher_1h_round"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <service
+            android:name=".TimerService"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Persistent Claude session countdown timer"/>
+        </service>
+
+        <receiver android:name=".AlarmReceiver" android:exported="false"/>
+        <receiver android:name=".HourReceiver" android:exported="false"/>
+    </application>
+</manifest>

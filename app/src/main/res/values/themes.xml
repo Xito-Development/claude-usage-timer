@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.ClaudeTimer" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorAccent">@color/claude_coral</item>
+        <item name="android:windowBackground">@color/app_bg</item>
+        <item name="android:statusBarColor">@color/app_bg</item>
+        <item name="android:navigationBarColor">@color/app_bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
