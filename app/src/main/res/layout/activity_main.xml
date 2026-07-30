@@ -84,12 +84,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tiempo de la sesión"
+                android:text="Cuándo se restablece"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/modeHint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -97,8 +98,28 @@
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"/>
 
+            <!-- Selector de modo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+                <TextView android:id="@+id/modeDuration" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Duración" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
+                    android:textStyle="bold" android:paddingTop="10dp" android:paddingBottom="10dp"/>
+                <TextView android:id="@+id/modeClock" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="Hora exacta" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
+                    android:textStyle="bold" android:paddingTop="10dp" android:paddingBottom="10dp"/>
+            </LinearLayout>
+
             <!-- Atajos -->
             <LinearLayout
+                android:id="@+id/rowChips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -127,6 +148,7 @@
 
             <!-- Selectores horas/minutos -->
             <LinearLayout
+                android:id="@+id/rowPickers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -150,6 +172,27 @@
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="minutos" android:textColor="@color/text_secondary" android:textSize="12sp"/>
                 </LinearLayout>
+            </LinearLayout>
+
+            <!-- Hora exacta de reinicio -->
+            <LinearLayout
+                android:id="@+id/rowClock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_inner"
+                android:padding="8dp">
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:timePickerMode="spinner"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="hora a la que se restablece tu límite"
+                    android:textColor="@color/text_secondary" android:textSize="12sp"/>
             </LinearLayout>
         </LinearLayout>
 

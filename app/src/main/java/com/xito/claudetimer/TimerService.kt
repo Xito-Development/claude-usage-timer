@@ -20,7 +20,7 @@ class TimerService : Service() {
 
     companion object {
         const val CHANNEL_MAIN = "claude_timer_main"
-        const val CHANNEL_ALERT = "claude_timer_alert"
+        const val CHANNEL_ALERT = "claude_timer_alert_v2"
         const val NOTIF_ID = 1001
         const val NOTIF_ALERT_ID = 1002
 
@@ -37,6 +37,7 @@ class TimerService : Service() {
         const val KEY_END = "end_time"
         const val KEY_START = "start_time"
         const val KEY_DUR_MIN = "dur_min"
+        const val KEY_CLOCK_MODE = "clock_mode"
 
         const val CLAUDE_CORAL = 0xFFD97757.toInt()
 
@@ -180,6 +181,9 @@ class TimerService : Service() {
             .setContentText("Ya puedes volver a usar Claude.")
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setSound(android.net.Uri.parse("android.resource://$packageName/${R.raw.reset_chime}"))
+            .setVibrate(longArrayOf(0, 90, 120, 90, 240, 160))
             .setContentIntent(openApp())
             .build()
         (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(NOTIF_ALERT_ID, n)
@@ -227,6 +231,16 @@ class TimerService : Service() {
             val main = NotificationChannel(CHANNEL_MAIN, "Temporizador", NotificationManager.IMPORTANCE_LOW)
             main.setShowBadge(false)
             val alert = NotificationChannel(CHANNEL_ALERT, "Avisos", NotificationManager.IMPORTANCE_HIGH)
+            val sound = android.net.Uri.parse("android.resource://$packageName/${R.raw.reset_chime}")
+            val attrs = android.media.AudioAttributes.Builder()
+                .setContentType(android.media.AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(android.media.AudioAttributes.USAGE_NOTIFICATION)
+                .build()
+            alert.setSound(sound, attrs)
+            alert.enableVibration(true)
+            alert.vibrationPattern = longArrayOf(0, 90, 120, 90, 240, 160)
+            alert.lightColor = CLAUDE_CORAL
+            alert.enableLights(true)
             mgr.createNotificationChannel(main)
             mgr.createNotificationChannel(alert)
         }

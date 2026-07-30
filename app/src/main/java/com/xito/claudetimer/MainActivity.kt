@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.NumberPicker
+import android.widget.LinearLayout
 import android.widget.ProgressBar
+import android.widget.TimePicker
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -20,6 +22,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var countdown: TextView
     private lateinit var stateLabel: TextView
     private lateinit var progress: ProgressBar
+    private lateinit var timePicker: TimePicker
+    private lateinit var rowChips: LinearLayout
+    private lateinit var rowPickers: LinearLayout
+    private lateinit var rowClock: LinearLayout
+    private lateinit var modeHint: TextView
+    private var clockMode = false
 
     private val handler = Handler(Looper.getMainLooper())
     private val ticker = object : Runnable {
@@ -39,6 +47,12 @@ class MainActivity : AppCompatActivity() {
         countdown = findViewById(R.id.countdown)
         stateLabel = findViewById(R.id.stateLabel)
         progress = findViewById(R.id.progress)
+        timePicker = findViewById(R.id.timePicker)
+        rowChips = findViewById(R.id.rowChips)
+        rowPickers = findViewById(R.id.rowPickers)
+        rowClock = findViewById(R.id.rowClock)
+        modeHint = findViewById(R.id.modeHint)
+        timePicker.setIs24HourView(true)
 
         pickHours.minValue = 0; pickHours.maxValue = 12
         pickMinutes.minValue = 0; pickMinutes.maxValue = 59
@@ -59,6 +73,23 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.btnReset).setOnClickListener { send(TimerService.ACTION_RESET) }
         findViewById<TextView>(R.id.btnStop).setOnClickListener { send(TimerService.ACTION_STOP) }
         findViewById<TextView>(R.id.btnShow).setOnClickListener { send(TimerService.ACTION_SHOW) }
+
+        findViewById<TextView>(R.id.modeDuration).setOnClickListener { setMode(false) }
+        findViewById<TextView>(R.id.modeClock).setOnClickListener { setMode(true) }
+        setMode(prefs.getBoolean(TimerService.KEY_CLOCK_MODE, false))
+    }
+
+    private fun setMode(clock: Boolean) {
+        clockMode = clock
+        getSharedPreferences(TimerService.PREFS, Context.MODE_PRIVATE)
+            .edit().putBoolean(TimerService.KEY_CLOCK_MODE, clock).apply()
+        rowChips.visibility = if (clock) android.view.View.GONE else android.view.View.VISIBLE
+        rowPickers.visibility = if (clock) android.view.View.GONE else android.view.View.VISIBLE
+        rowClock.visibility = if (clock) android.view.View.VISIBLE else android.view.View.GONE
+        modeHint.text = if (clock)
+            "Elige la hora exacta a la que se restablece tu límite"
+        else
+            "Elige cuánto quieres que dure la cuenta atrás"
     }
 
     private fun setDur(h: Int, m: Int) {
@@ -67,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun start() {
-        val mins = pickHours.value * 60 + pickMinutes.value
+        val mins = if (clockMode) minutesUntilClock() else pickHours.value * 60 + pickMinutes.value
         if (mins <= 0) return
         getSharedPreferences(TimerService.PREFS, Context.MODE_PRIVATE)
             .edit().putInt(TimerService.KEY_DUR_MIN, mins).apply()
@@ -76,6 +107,20 @@ class MainActivity : AppCompatActivity() {
             putExtra(TimerService.EXTRA_DUR_MIN, mins)
         }
         launch(i)
+    }
+
+    /** Minutos desde ahora hasta la hora elegida (si ya pasó, cuenta hasta mañana). */
+    private fun minutesUntilClock(): Int {
+        val h = timePicker.hour
+        val m = timePicker.minute
+        val cal = java.util.Calendar.getInstance()
+        val target = java.util.Calendar.getInstance()
+        target.set(java.util.Calendar.HOUR_OF_DAY, h)
+        target.set(java.util.Calendar.MINUTE, m)
+        target.set(java.util.Calendar.SECOND, 0)
+        target.set(java.util.Calendar.MILLISECOND, 0)
+        if (!target.after(cal)) target.add(java.util.Calendar.DAY_OF_YEAR, 1)
+        return (((target.timeInMillis - cal.timeInMillis) / 60000L).toInt()).coerceAtLeast(1)
     }
 
     private fun send(action: String) {

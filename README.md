@@ -4,7 +4,10 @@ Notificación permanente con estética de Claude que cuenta atrás el tiempo de 
 límite de uso. Ahora puedes **elegir cuánto dura** cada sesión.
 
 ## ✨ Funciones
-- **Selector de tiempo**: elige horas y minutos, o usa los atajos (5h · 4h · 3h · 2h · 1h).
+- **Dos modos, alternables con un toque**:
+  - **Duración** → elige horas y minutos, o usa los atajos (5h · 4h · 3h · 2h · 1h).
+  - **Hora exacta** → indica la hora a la que se restablece tu límite (si ya pasó, cuenta hasta mañana).
+- **Sonido propio al restablecerse**: campanilla suave y moderna, distinta del tono normal del móvil.
 - Notificación fija **totalmente personalizada** (tarjeta con colores de Claude y botones coral):
   no es el diseño gris de Android.
 - Cuenta atrás **al segundo**; al expandir la notificación, cronómetro gigante.
@@ -47,3 +50,7 @@ Haz un cambio, compila y comprueba.
 
 ---
 Hecho con Claude · Xito Development
+
+## 📄 Licencia
+Publicado bajo licencia **MIT** (ver archivo `LICENSE`). Puedes usar, modificar y
+compartir la app libremente; solo hay que conservar el aviso de copyright.
