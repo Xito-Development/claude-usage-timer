@@ -47,6 +47,85 @@
         android:textColor="@color/text_secondary"
         android:textSize="12sp"/>
 
+    <!-- Uso real -->
+    <LinearLayout
+        android:id="@+id/usageBlock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="14dp"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/lblSessionN"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sesión 5 h"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"/>
+            <TextView
+                android:id="@+id/pctSessionN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textColor="@color/claude_coral"
+                android:textSize="11sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/barSessionN"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:layout_marginTop="4dp"
+            android:max="100" android:progress="0"
+            android:progressDrawable="@drawable/progress_rounded"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Semanal"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp"/>
+            <TextView
+                android:id="@+id/pctWeeklyN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textColor="@color/claude_coral"
+                android:textSize="11sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+        <ProgressBar
+            android:id="@+id/barWeeklyN"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="7dp"
+            android:layout_marginTop="4dp"
+            android:max="100" android:progress="0"
+            android:progressDrawable="@drawable/progress_rounded"/>
+
+        <TextView
+            android:id="@+id/lastConsumeN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text=""
+            android:textColor="@color/text_tertiary"
+            android:textSize="10sp"/>
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

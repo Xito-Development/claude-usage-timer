@@ -10,7 +10,7 @@ import android.os.Build
 object UsageSync {
 
     const val ACTION_TICK = "com.xito.claudetimer.SYNC_TICK"
-    private const val INTERVAL = 5 * 60 * 1000L        // ritmo normal
+    private const val INTERVAL = 2 * 60 * 1000L        // ritmo normal (2 min)
     private const val INTERVAL_FAST = 30 * 1000L       // seguimiento en vivo
 
     fun syncNow(ctx: Context, onDone: (() -> Unit)? = null) {

@@ -6,13 +6,18 @@ límite de uso. Ahora puedes **elegir cuánto dura** cada sesión.
 ## ✨ Funciones
 - **Modo Automático (nuevo)**: inicia sesión con tu cuenta de Claude desde la app
   (WebView) y verás tu **uso real**: barras de sesión de 5 h y límite semanal, con la
-  hora de reinicio que reporta Claude. Se actualiza solo cada 5 minutos.
+  hora de reinicio que reporta Claude. Se actualiza solo cada 2 minutos.
 - **Modo Manual**: el temporizador de siempre, sin cuenta.
   Alterna entre ambos con un toque.
-- **Widget para la pantalla de inicio**: cuenta atrás, % usado y botón de refresco.
+- **Widget para la pantalla de inicio**: cuenta atrás con hora de reinicio, barra de
+  progreso, y tres cifras — % de sesión usado, % semanal y último gasto detectado.
+  Se **repinta solo cada minuto** y muestra cuándo fue la última sincronización.
+  Botón de refresco para forzar una consulta al momento.
+- **Uso en la notificación**: la notificación permanente muestra el % consumido; al
+  expandirla, barras de sesión y semanal más el último gasto detectado.
 - **Actividad de consumo**: registra cada subida de tu uso (lo que gasta cada mensaje),
   con el último consumo destacado, total de la sesión, número de consumos e historial.
-  Botón de **seguimiento en vivo** que consulta cada 30 s en lugar de cada 5 min.
+  Botón de **seguimiento en vivo** que consulta cada 30 s en lugar de cada 2 min.
 - **Recordatorios por uso**: elige a qué porcentajes quieres que te avise (50, 75, 80,
   90, 95 y al agotarse), por separado para la **sesión de 5 h** y para el **límite
   semanal**. Cada aviso salta una sola vez y se rearma al restablecerse el límite.
@@ -85,7 +90,7 @@ o pulsa el icono de refrescar para actualizar al momento.
 ## 🔎 Cómo funciona la "Actividad de consumo"
 Android no permite que una app vea lo que ocurre dentro de otra, así que la app **no
 puede** leer la petición que envías en Claude ni sus tokens exactos. Lo que hace es
-consultar tu uso periódicamente y, cuando detecta que el porcentaje ha subido, registra
+consultar tu uso cada 2 minutos y, cuando detecta que el porcentaje ha subido, registra
 ese salto como un consumo. Verás el gasto de cada mensaje unos segundos después de
 enviarlo, no mientras se genera. Con el seguimiento en vivo (30 s) la detección es
 casi inmediata, a cambio de algo más de batería y datos.

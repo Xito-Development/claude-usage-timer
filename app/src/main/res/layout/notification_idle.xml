@@ -39,6 +39,17 @@
                 android:text="Listo para empezar"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp"/>
+
+            <ProgressBar
+                android:id="@+id/idleBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="10dp"
+                android:max="100" android:progress="0"
+                android:visibility="gone"
+                android:progressDrawable="@drawable/progress_rounded"/>
         </LinearLayout>
     </LinearLayout>
 

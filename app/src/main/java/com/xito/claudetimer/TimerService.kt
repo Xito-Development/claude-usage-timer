@@ -141,9 +141,20 @@ class TimerService : Service() {
             .setPriority(NotificationCompat.PRIORITY_LOW)
 
     private fun buildIdle(): Notification {
-        val dur = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_DUR_MIN, 300)
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val dur = p.getInt(KEY_DUR_MIN, 300)
         val v = RemoteViews(packageName, R.layout.notification_idle)
-        v.setTextViewText(R.id.subtitle, "Empezar cuenta atrás de ${durLabel(dur)}")
+
+        val auto = Store.isAuto(this) && Store.loggedIn(this)
+        val sp = p.getInt(Store.KEY_LAST_SESSION_PCT, -1)
+        if (auto && sp >= 0) {
+            v.setTextViewText(R.id.subtitle, "$sp% usado · esperando reinicio")
+            v.setProgressBar(R.id.idleBar, 100, sp, false)
+            v.setViewVisibility(R.id.idleBar, android.view.View.VISIBLE)
+        } else {
+            v.setTextViewText(R.id.subtitle, "Empezar cuenta atrás de ${durLabel(dur)}")
+            v.setViewVisibility(R.id.idleBar, android.view.View.GONE)
+        }
         v.setOnClickPendingIntent(R.id.btn_start, pending(ACTION_START))
         v.setOnClickPendingIntent(R.id.btn_stop, pending(ACTION_STOP))
         return baseBuilder().setCustomContentView(v).setCustomBigContentView(v).build()
@@ -161,6 +172,35 @@ class TimerService : Service() {
         big.setChronometer(R.id.chrono, base, null, true)
         big.setOnClickPendingIntent(R.id.btn_reset, pending(ACTION_RESET))
         big.setOnClickPendingIntent(R.id.btn_stop, pending(ACTION_STOP))
+
+        // ---- Uso real (solo en modo automático con cuenta conectada) ----
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val auto = Store.isAuto(this) && Store.loggedIn(this)
+        val sp = p.getInt(Store.KEY_LAST_SESSION_PCT, -1)
+        val wp = p.getInt(Store.KEY_LAST_WEEKLY_PCT, -1)
+
+        if (auto && sp >= 0) {
+            small.setTextViewText(R.id.usageLine, "$sp% de tu sesión usado")
+            small.setProgressBar(R.id.usageBar, 100, sp, false)
+            small.setViewVisibility(R.id.usageBar, android.view.View.VISIBLE)
+
+            big.setViewVisibility(R.id.usageBlock, android.view.View.VISIBLE)
+            big.setTextViewText(R.id.pctSessionN, "$sp%")
+            big.setProgressBar(R.id.barSessionN, 100, sp, false)
+            if (wp >= 0) {
+                big.setTextViewText(R.id.pctWeeklyN, "$wp%")
+                big.setProgressBar(R.id.barWeeklyN, 100, wp, false)
+            }
+            val last = UsageLog.load(this).firstOrNull()
+            big.setTextViewText(
+                R.id.lastConsumeN,
+                if (last != null) "último consumo " + UsageLog.fmtDelta(last.deltaTenths) +
+                        " · " + UsageLog.ago(last.at) else ""
+            )
+        } else {
+            small.setViewVisibility(R.id.usageBar, android.view.View.GONE)
+            big.setViewVisibility(R.id.usageBlock, android.view.View.GONE)
+        }
 
         return baseBuilder().setCustomContentView(small).setCustomBigContentView(big).build()
     }
