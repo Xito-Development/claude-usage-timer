@@ -1,12 +1,17 @@
 <resources>
     <color name="claude_coral">#D97757</color>
     <color name="claude_coral_press">#C15F3C</color>
-    <color name="app_bg">#ECEAE2</color>
-    <color name="card_bg">#F7F5F0</color>
+    <color name="claude_coral_soft">#F2D9CE</color>
+    <color name="app_bg">#EDEBE3</color>
+    <color name="card_bg">#FBFAF7</color>
     <color name="card_bg2">#FFFFFF</color>
-    <color name="text_primary">#2B2A27</color>
-    <color name="text_secondary">#7A7770</color>
-    <color name="stroke">#DED8CC</color>
+    <color name="text_primary">#26251F</color>
+    <color name="text_secondary">#79766D</color>
+    <color name="text_tertiary">#A5A198</color>
+    <color name="stroke">#E0DACD</color>
+    <color name="track">#E4DFD4</color>
     <color name="on_coral">#FFFFFF</color>
+    <color name="ok_green">#4E8C6A</color>
+    <color name="warn">#C9902F</color>
     <color name="ic_bg">#F0EEE6</color>
 </resources>

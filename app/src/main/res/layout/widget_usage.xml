@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_widget"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_asterisk"/>
+
+        <TextView
+            android:id="@+id/wPct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="modo manual"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/wRefresh"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_refresh"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/wTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="--:--"
+        android:textColor="@color/claude_coral"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/wLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sin sesión"
+        android:textColor="@color/text_tertiary"
+        android:textSize="11sp"/>
+
+    <ProgressBar
+        android:id="@+id/wBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="10dp"
+        android:max="1000"
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_rounded"/>
+</LinearLayout>

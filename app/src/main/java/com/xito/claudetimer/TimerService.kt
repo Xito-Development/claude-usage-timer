@@ -70,7 +70,8 @@ class TimerService : Service() {
                 clear(prefs); updateIcon(0L); startForeground(NOTIF_ID, buildIdle())
             }
             ACTION_FINISHED -> {
-                clear(prefs); updateIcon(0L); fireAlert(); startForeground(NOTIF_ID, buildIdle())
+                clear(prefs); updateIcon(0L); Alerts.rearm(this); fireAlert()
+                startForeground(NOTIF_ID, buildIdle())
             }
             ACTION_STOP -> {
                 clear(prefs); updateIcon(0L)

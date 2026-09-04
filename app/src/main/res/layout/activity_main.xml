@@ -3,90 +3,582 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="@color/app_bg">
+    android:background="@color/app_bg"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="18dp">
 
-        <!-- Cabecera -->
+        <!-- ===== Cabecera ===== -->
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="18dp">
+            android:layout_marginBottom="16dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp">
+
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
                 android:src="@drawable/ic_asterisk"/>
-            <TextView
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="Temporizador de Claude"
-                android:textColor="@color/text_primary"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Temporizador"
+                    android:textColor="@color/text_primary"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="-0.02"/>
+                <TextView
+                    android:id="@+id/headerSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Modo manual"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="12sp"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Estado / cuenta atrás -->
+        <!-- ===== Tarjeta principal (cuenta atrás) ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@drawable/bg_card"
-            android:padding="24dp"
-            android:layout_marginBottom="16dp">
+            android:background="@drawable/bg_card_hero"
+            android:paddingTop="30dp"
+            android:paddingBottom="26dp"
+            android:paddingStart="22dp"
+            android:paddingEnd="22dp"
+            android:layout_marginBottom="14dp">
 
             <TextView
                 android:id="@+id/stateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_soft"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="Sin sesión activa"
-                android:textColor="@color/text_secondary"
-                android:textSize="14sp"/>
+                android:textColor="@color/claude_coral"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/countdown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="12dp"
                 android:text="--:--:--"
-                android:textColor="@color/claude_coral"
-                android:textSize="52sp"
+                android:textColor="@color/text_primary"
+                android:textSize="56sp"
                 android:textStyle="bold"
+                android:letterSpacing="-0.04"
                 android:fontFamily="sans-serif-medium"/>
+
+            <TextView
+                android:id="@+id/resetAt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="pulsa comenzar para iniciar"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp"/>
 
             <ProgressBar
                 android:id="@+id/progress"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="14dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="18dp"
                 android:max="1000"
                 android:progress="0"
-                android:progressTint="@color/claude_coral"/>
+                android:progressDrawable="@drawable/progress_rounded"/>
         </LinearLayout>
 
-        <!-- Selector de tiempo -->
+        <!-- ===== Modo manual / automático ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/bg_card"
-            android:padding="20dp"
-            android:layout_marginBottom="16dp">
+            android:padding="18dp"
+            android:layout_marginBottom="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Origen de los datos"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp">
+                <TextView android:id="@+id/tabManual" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:text="Manual" android:gravity="center"
+                    android:background="@drawable/bg_chip_on" android:textColor="@color/on_coral"
+                    android:textStyle="bold" android:paddingTop="11dp" android:paddingBottom="11dp"/>
+                <TextView android:id="@+id/tabAuto" android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:text="Automático" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textStyle="bold" android:paddingTop="11dp" android:paddingBottom="11dp"/>
+            </LinearLayout>
+
+            <!-- Panel automático -->
+            <LinearLayout
+                android:id="@+id/panelAuto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_inner"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/accountState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin cuenta conectada"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Inicia sesión para ver tu uso real"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp"/>
+
+                <!-- Uso sesión -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="Sesión de 5 h"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
+                <ProgressBar
+                    android:id="@+id/barSession"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="9dp"
+                    android:layout_marginTop="5dp"
+                    android:max="100" android:progress="0"
+                    android:progressDrawable="@drawable/progress_rounded"/>
+                <TextView
+                    android:id="@+id/lblSession"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="—"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp"/>
+
+                <!-- Uso semanal -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Límite semanal"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp"/>
+                <ProgressBar
+                    android:id="@+id/barWeekly"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="9dp"
+                    android:layout_marginTop="5dp"
+                    android:max="100" android:progress="0"
+                    android:progressDrawable="@drawable/progress_rounded"/>
+                <TextView
+                    android:id="@+id/lblWeekly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="—"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="14dp">
+                    <TextView android:id="@+id/btnLogin" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="Iniciar sesión" android:gravity="center"
+                        android:background="@drawable/bg_btn_primary" android:textColor="@color/on_coral"
+                        android:textStyle="bold" android:paddingTop="12dp" android:paddingBottom="12dp"/>
+                    <TextView android:id="@+id/btnSync" android:layout_width="0dp"
+                        android:layout_height="wrap_content" android:layout_weight="1"
+                        android:layout_marginStart="8dp"
+                        android:text="Actualizar" android:gravity="center"
+                        android:background="@drawable/bg_btn_ghost" android:textColor="@color/text_primary"
+                        android:paddingTop="12dp" android:paddingBottom="12dp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/lastSync"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text=""
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ===== Actividad de consumo ===== -->
+        <LinearLayout
+            android:id="@+id/cardActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="18dp"
+            android:layout_marginBottom="14dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actividad de consumo"
+                        android:textColor="@color/text_primary"
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/activitySub"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Sin consumo registrado todavía"
+                        android:textColor="@color/text_tertiary"
+                        android:textSize="11sp"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/liveDot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pill_soft"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="En reposo"
+                    android:textColor="@color/claude_coral"
+                    android:textSize="11sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Último consumo destacado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_inner"
+                android:padding="14dp"
+                android:layout_marginTop="12dp">
+                <TextView
+                    android:id="@+id/lastDelta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="—"
+                    android:textColor="@color/claude_coral"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium"/>
+                <TextView
+                    android:id="@+id/lastDeltaWhen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="último consumo detectado"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp"/>
+            </LinearLayout>
+
+            <!-- Resumen -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:orientation="vertical"
+                    android:background="@drawable/bg_inner" android:padding="12dp">
+                    <TextView android:id="@+id/statMsgs" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0"
+                        android:textColor="@color/text_primary" android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="consumos en la sesión" android:textColor="@color/text_tertiary"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight="1" android:layout_marginStart="8dp" android:orientation="vertical"
+                    android:background="@drawable/bg_inner" android:padding="12dp">
+                    <TextView android:id="@+id/statTotal" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:text="0%"
+                        android:textColor="@color/text_primary" android:textSize="20sp"
+                        android:textStyle="bold"/>
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="gastado en la sesión" android:textColor="@color/text_tertiary"
+                        android:textSize="10sp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Historial -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Últimos consumos"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+            <LinearLayout
+                android:id="@+id/historyBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:id="@+id/btnFast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Activar seguimiento en vivo (30 s)"
+                android:gravity="center"
+                android:background="@drawable/bg_btn_ghost"
+                android:textColor="@color/text_primary"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="6dp"
+                android:text="consulta cada 30 s · gasta más batería"
+                android:textColor="@color/text_tertiary"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
+        <!-- ===== Recordatorios por uso ===== -->
+        <LinearLayout
+            android:id="@+id/cardAlerts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="18dp"
+            android:layout_marginBottom="14dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recordatorios de uso"
+                android:textColor="@color/text_primary"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Te aviso cuando cruces estos porcentajes"
+                android:textColor="@color/text_tertiary"
+                android:textSize="11sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Sesión de 5 h"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:id="@+id/ts50" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="50%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/ts75" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="75%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/ts80" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="80%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/ts90" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="90%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/ts95" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="95%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/ts100" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Al agotarse" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:text="Límite semanal"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView android:id="@+id/tw50" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="50%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/tw75" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="75%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/tw80" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="80%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/tw90" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="90%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/tw95" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="95%" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+                <TextView android:id="@+id/tw100" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginEnd="6dp"
+                    android:layout_marginTop="6dp"
+                    android:text="Al agotarse" android:gravity="center"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
+                    android:textSize="12sp"
+                    android:paddingStart="14dp" android:paddingEnd="14dp"
+                    android:paddingTop="7dp" android:paddingBottom="7dp"/>
+            </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
+        <!-- ===== Ajustes manuales ===== -->
+        <LinearLayout
+            android:id="@+id/cardManual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_card"
+            android:padding="18dp"
+            android:layout_marginBottom="14dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cuándo se restablece"
                 android:textColor="@color/text_primary"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:textStyle="bold"/>
 
             <TextView
@@ -95,10 +587,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Elige cuánto quieres que dure la cuenta atrás"
-                android:textColor="@color/text_secondary"
-                android:textSize="12sp"/>
+                android:textColor="@color/text_tertiary"
+                android:textSize="11sp"/>
 
-            <!-- Selector de modo -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,74 +598,69 @@
                 <TextView android:id="@+id/modeDuration" android:layout_width="0dp"
                     android:layout_height="wrap_content" android:layout_weight="1"
                     android:text="Duración" android:gravity="center"
-                    android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
+                    android:background="@drawable/bg_chip_on" android:textColor="@color/on_coral"
                     android:textStyle="bold" android:paddingTop="10dp" android:paddingBottom="10dp"/>
                 <TextView android:id="@+id/modeClock" android:layout_width="0dp"
                     android:layout_height="wrap_content" android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Hora exacta" android:gravity="center"
-                    android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
+                    android:background="@drawable/bg_chip" android:textColor="@color/text_secondary"
                     android:textStyle="bold" android:paddingTop="10dp" android:paddingBottom="10dp"/>
             </LinearLayout>
 
-            <!-- Atajos -->
             <LinearLayout
                 android:id="@+id/rowChips"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="14dp">
+                android:layout_marginTop="12dp">
                 <TextView android:id="@+id/chip5" android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_weight="1" android:text="5h" android:gravity="center"
                     android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
-                    android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                    android:paddingTop="9dp" android:paddingBottom="9dp"/>
                 <TextView android:id="@+id/chip4" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:layout_marginStart="8dp" android:text="4h" android:gravity="center"
+                    android:layout_weight="1" android:layout_marginStart="6dp" android:text="4h" android:gravity="center"
                     android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
-                    android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                    android:paddingTop="9dp" android:paddingBottom="9dp"/>
                 <TextView android:id="@+id/chip3" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:layout_marginStart="8dp" android:text="3h" android:gravity="center"
+                    android:layout_weight="1" android:layout_marginStart="6dp" android:text="3h" android:gravity="center"
                     android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
-                    android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                    android:paddingTop="9dp" android:paddingBottom="9dp"/>
                 <TextView android:id="@+id/chip2" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:layout_marginStart="8dp" android:text="2h" android:gravity="center"
+                    android:layout_weight="1" android:layout_marginStart="6dp" android:text="2h" android:gravity="center"
                     android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
-                    android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                    android:paddingTop="9dp" android:paddingBottom="9dp"/>
                 <TextView android:id="@+id/chip1" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:layout_marginStart="8dp" android:text="1h" android:gravity="center"
+                    android:layout_weight="1" android:layout_marginStart="6dp" android:text="1h" android:gravity="center"
                     android:background="@drawable/bg_chip" android:textColor="@color/claude_coral"
-                    android:paddingTop="8dp" android:paddingBottom="8dp"/>
+                    android:paddingTop="9dp" android:paddingBottom="9dp"/>
             </LinearLayout>
 
-            <!-- Selectores horas/minutos -->
             <LinearLayout
                 android:id="@+id/rowPickers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_inner"
-                android:padding="8dp">
-
+                android:padding="6dp">
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_weight="1" android:orientation="vertical" android:gravity="center">
                     <NumberPicker android:id="@+id/pickHours"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="horas" android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                        android:text="horas" android:textColor="@color/text_tertiary" android:textSize="11sp"/>
                 </LinearLayout>
-
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                     android:layout_weight="1" android:orientation="vertical" android:gravity="center">
                     <NumberPicker android:id="@+id/pickMinutes"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:text="minutos" android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                        android:text="minutos" android:textColor="@color/text_tertiary" android:textSize="11sp"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Hora exacta de reinicio -->
             <LinearLayout
                 android:id="@+id/rowClock"
                 android:layout_width="match_parent"
@@ -182,9 +668,9 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:visibility="gone"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_inner"
-                android:padding="8dp">
+                android:padding="6dp">
                 <TimePicker
                     android:id="@+id/timePicker"
                     android:layout_width="wrap_content"
@@ -192,36 +678,35 @@
                     android:timePickerMode="spinner"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="hora a la que se restablece tu límite"
-                    android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                    android:textColor="@color/text_tertiary" android:textSize="11sp"/>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Botón principal -->
+        <!-- ===== Acciones ===== -->
         <TextView
             android:id="@+id/btnStart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="▶  Comenzar sesión"
+            android:text="Comenzar sesión"
             android:textColor="@color/on_coral"
             android:textStyle="bold"
             android:textSize="16sp"
             android:gravity="center"
             android:background="@drawable/bg_btn_primary"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"/>
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"/>
 
-        <!-- Botones secundarios -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="8dp">
             <TextView android:id="@+id/btnReset" android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="↺  Reiniciar" android:gravity="center"
+                android:layout_weight="1" android:text="Reiniciar" android:gravity="center"
                 android:background="@drawable/bg_btn_ghost" android:textColor="@color/text_primary"
                 android:paddingTop="13dp" android:paddingBottom="13dp"/>
             <TextView android:id="@+id/btnStop" android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:layout_marginStart="10dp" android:text="✕  Finalizar"
+                android:layout_weight="1" android:layout_marginStart="8dp" android:text="Finalizar"
                 android:gravity="center" android:background="@drawable/bg_btn_ghost"
                 android:textColor="@color/text_secondary" android:paddingTop="13dp" android:paddingBottom="13dp"/>
         </LinearLayout>
@@ -230,8 +715,8 @@
             android:id="@+id/btnShow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="🔔  Dejar notificación siempre activa"
+            android:layout_marginTop="8dp"
+            android:text="Dejar notificación siempre activa"
             android:gravity="center"
             android:background="@drawable/bg_btn_ghost"
             android:textColor="@color/text_primary"
@@ -243,8 +728,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="18dp"
+            android:layout_marginBottom="6dp"
             android:text="Xito Development"
-            android:textColor="@color/text_secondary"
-            android:textSize="12sp"/>
+            android:textColor="@color/text_tertiary"
+            android:textSize="11sp"/>
     </LinearLayout>
 </ScrollView>

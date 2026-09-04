@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
@@ -93,6 +95,24 @@
                 android:value="Persistent Claude session countdown timer"/>
         </service>
 
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:label="Iniciar sesión"/>
+
+        <receiver
+            android:name=".UsageWidget"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.xito.claudetimer.WIDGET_REFRESH"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info"/>
+        </receiver>
+
+        <receiver android:name=".SyncReceiver" android:exported="false"/>
         <receiver android:name=".AlarmReceiver" android:exported="false"/>
         <receiver android:name=".HourReceiver" android:exported="false"/>
     </application>

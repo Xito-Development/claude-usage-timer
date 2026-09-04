@@ -4,6 +4,19 @@ Notificación permanente con estética de Claude que cuenta atrás el tiempo de 
 límite de uso. Ahora puedes **elegir cuánto dura** cada sesión.
 
 ## ✨ Funciones
+- **Modo Automático (nuevo)**: inicia sesión con tu cuenta de Claude desde la app
+  (WebView) y verás tu **uso real**: barras de sesión de 5 h y límite semanal, con la
+  hora de reinicio que reporta Claude. Se actualiza solo cada 5 minutos.
+- **Modo Manual**: el temporizador de siempre, sin cuenta.
+  Alterna entre ambos con un toque.
+- **Widget para la pantalla de inicio**: cuenta atrás, % usado y botón de refresco.
+- **Actividad de consumo**: registra cada subida de tu uso (lo que gasta cada mensaje),
+  con el último consumo destacado, total de la sesión, número de consumos e historial.
+  Botón de **seguimiento en vivo** que consulta cada 30 s en lugar de cada 5 min.
+- **Recordatorios por uso**: elige a qué porcentajes quieres que te avise (50, 75, 80,
+  90, 95 y al agotarse), por separado para la **sesión de 5 h** y para el **límite
+  semanal**. Cada aviso salta una sola vez y se rearma al restablecerse el límite.
+  Disponible en Modo Automático (necesita el uso real de tu cuenta).
 - **Dos modos, alternables con un toque**:
   - **Duración** → elige horas y minutos, o usa los atajos (5h · 4h · 3h · 2h · 1h).
   - **Hora exacta** → indica la hora a la que se restablece tu límite (si ya pasó, cuenta hasta mañana).
@@ -54,3 +67,25 @@ Hecho con Claude · Xito Development
 ## 📄 Licencia
 Publicado bajo licencia **MIT** (ver archivo `LICENSE`). Puedes usar, modificar y
 compartir la app libremente; solo hay que conservar el aviso de copyright.
+
+
+## ⚠️ Nota sobre el Modo Automático
+Usa un endpoint interno de claude.ai (`/api/organizations/{id}/usage`) que **no es una
+API oficial**. Puede cambiar sin aviso y dejar de funcionar; además la sesión caduca
+cada pocos días y habrá que volver a iniciar sesión. Tus credenciales se guardan
+solo en tu móvil y no se envían a ningún sitio salvo a claude.ai.
+Si el modo automático falla, el Modo Manual sigue funcionando siempre.
+
+## 📲 Añadir el widget
+Mantén pulsado un hueco vacío de tu pantalla de inicio → **Widgets** →
+busca **Temporizador Claude** → arrastra el widget. Tócalo para abrir la app,
+o pulsa el icono de refrescar para actualizar al momento.
+
+
+## 🔎 Cómo funciona la "Actividad de consumo"
+Android no permite que una app vea lo que ocurre dentro de otra, así que la app **no
+puede** leer la petición que envías en Claude ni sus tokens exactos. Lo que hace es
+consultar tu uso periódicamente y, cuando detecta que el porcentaje ha subido, registra
+ese salto como un consumo. Verás el gasto de cada mensaje unos segundos después de
+enviarlo, no mientras se genera. Con el seguimiento en vivo (30 s) la detección es
+casi inmediata, a cambio de algo más de batería y datos.
